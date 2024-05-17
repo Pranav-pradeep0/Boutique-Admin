@@ -5,13 +5,12 @@ import { Box, Grid, Paper, useTheme } from "@mui/material";
 import Dashboard from "./Pages/Dashboard";
 import Header from "./Pages/Header";
 import Products from "./Pages/Product/Products";
-import Orders from "./Pages/Order/Orders";
 import Categories from "./Pages/Product/Categories";
 import Attributes from "./Pages/Product/Attributes";
 import Interests from "./Pages/Order/Interests";
-import PreBookings from "./Pages/Order/PreBooking/PreBookings";
-import PreBookingDetails from "./Pages/Order/PreBooking/PreBookingDetails";
 import PreBookinPages from "./Pages/Order/PreBooking";
+import OrderPages from "./Pages/Order/Orders";
+import InterestsPages from "./Pages/Order/Interests";
 
 const App = () => {
   const theme = useTheme();
@@ -50,10 +49,9 @@ const App = () => {
               <Route path="/categories" element={<Categories />} />
               <Route path="/attributes" element={<Attributes />} />
 
-              <Route path="/orders/*" element={<Orders />} />
-              <Route path="/interests/*" element={<Interests />} />
+              <Route path="/orders/*" element={<OrderPages />} />
+              <Route path="/interests/*" element={<InterestsPages />} />
               <Route path="/prebookings/*" element={<PreBookinPages />} />
-
             </Routes>
           </Box>
         </Grid>

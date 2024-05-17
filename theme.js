@@ -16,10 +16,11 @@ const theme = createTheme({
     background: {
       default: "#FFFFFF", // Default background color
       paper: "#F4F4F4", // Card background color,
-      offPaper:'#F4F4F4'
+      offPaper: "#F4F4F4",
     },
     button: {
-      main: "#60A7A1", // Button color
+      main: "#C8E3E187", // Button color,
+      text: "#60A7A1",
     },
     icon: {
       main: "#60A7A1", // General icon color
