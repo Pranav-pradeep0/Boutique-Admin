@@ -10,12 +10,13 @@ const theme = createTheme({
       text: "#60A7A1", // Success button text color
     },
     error: {
-      main: "#FF5C00", // Error button background color
+      main: "#ffefe5", // Error button background color
       text: "#F76C6C", // Error button text color
     },
     background: {
       default: "#FFFFFF", // Default background color
-      paper: "#FAFAFA", // Card background color
+      paper: "#F4F4F4", // Card background color,
+      offPaper:'#F4F4F4'
     },
     button: {
       main: "#60A7A1", // Button color
