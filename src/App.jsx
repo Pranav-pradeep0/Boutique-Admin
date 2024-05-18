@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Sidebar from "./Pages/Sidebar";
-import { Box, Grid, Paper, useTheme } from "@mui/material";
+import { Box, Grid, Paper, useMediaQuery, useTheme } from "@mui/material";
 import Dashboard from "./Pages/Dashboard";
 import Header from "./Pages/Header";
 import Products from "./Pages/Product/Products";
@@ -14,6 +14,7 @@ import InterestsPages from "./Pages/Order/Interests";
 
 const App = () => {
   const theme = useTheme();
+  const matches = useMediaQuery("(min-width:800px)");
 
   return (
     <Box>
@@ -32,6 +33,7 @@ const App = () => {
             zIndex: 1,
             overflowY: "auto",
             width: "20%",
+            display: !matches && "none",
           }}
         >
           <Box style={{ padding: "20px" }}>
@@ -39,7 +41,7 @@ const App = () => {
           </Box>
         </Grid>
 
-        <Grid item xs={12} md={12} style={{ marginLeft: "20%" }}>
+        <Grid item xs={12} md={12} style={{ marginLeft: matches && "20%" }}>
           <Header />
           <Box style={{ padding: "20px" }}>
             <Routes>
