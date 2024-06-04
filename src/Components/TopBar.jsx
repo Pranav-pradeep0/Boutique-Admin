@@ -11,6 +11,8 @@ const TopBar = ({ label, onAddButtonClick }) => {
         display: "flex",
         justifyContent: "space-between",
         padding: "10px 30px",
+        flexWrap:'wrap',
+        gap:'20px'
       }}
     >
       <Box>
@@ -18,12 +20,13 @@ const TopBar = ({ label, onAddButtonClick }) => {
           {label}
         </p>
       </Box>
-      <Box sx={{ display: "flex", gap: "20px" }}>
+      <Box sx={{ display: "flex", gap: "20px",  }}>
         <InputBase
           placeholder="Search"
           sx={{
             border: "#F2F2F2 1px solid",
-            padding: "0px 10px",
+            paddingLeft:'10px',
+            marginRight:'5px',
             borderRadius: "10px",
           }}
           endAdornment={
@@ -35,13 +38,14 @@ const TopBar = ({ label, onAddButtonClick }) => {
         <Button
         onClick={onAddButtonClick}
           sx={{
-            backgroundColor: theme.palette.button.main,
+            backgroundColor: theme.palette.button.text,
             color: "white",
             " :hover": {
-              backgroundColor: theme.palette.button.main,
+              backgroundColor: theme.palette.button.text,
             },
             borderRadius:'10px',
-            paddingInline:'15px'
+            paddingInline:'15px',
+            minWidth:'max-content'
           }}
         >
           <Plus size={18} />

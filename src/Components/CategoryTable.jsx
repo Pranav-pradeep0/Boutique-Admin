@@ -11,41 +11,15 @@ import {
   useTheme,
   Typography,
 } from "@mui/material";
-import { Check, CheckCircle } from "@phosphor-icons/react";
+import { Check, CheckCircle, DiceThree } from "@phosphor-icons/react";
 
-const dummyData = [
-  {
-    id: 1,
-    category: "Baptism",
-    description: "Lorem ipsum dolor sit amet consectetur.",
-    status: "Active",
-  },
-  {
-    id: 2,
-    category: "Holy Communal",
-    description: "Lorem ipsum dolor sit amet consectetur.",
-    status: "Inactive",
-  },
-];
-
-const CategoryTable = () => {
-  const [selectAll, setSelectAll] = useState(false);
-  const [data, setData] = useState(dummyData);
+const CategoryTable = ({
+  data,
+  handleCheckboxChange,
+  handleSelectAll,
+  selectAll,
+}) => {
   const theme = useTheme();
-
-  const handleCheckboxChange = (id) => {
-    const updatedData = data.map((item) =>
-      item.id === id ? { ...item, selected: !item.selected } : item
-    );
-    setData(updatedData);
-    setSelectAll(updatedData.every((item) => item.selected));
-  };
-
-  const handleSelectAll = () => {
-    const updatedData = data.map((item) => ({ ...item, selected: !selectAll }));
-    setData(updatedData);
-    setSelectAll(!selectAll);
-  };
 
   return (
     <TableContainer>
@@ -61,10 +35,11 @@ const CategoryTable = () => {
             <TableCell>Category</TableCell>
             <TableCell>Description</TableCell>
             <TableCell>Status</TableCell>
+            <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((row) => (
+          {data?.map((row) => (
             <TableRow
               key={row.id}
               sx={{
@@ -80,27 +55,29 @@ const CategoryTable = () => {
                 />
               </TableCell>
               <TableCell>{row.id}</TableCell>
-              <TableCell>{row.category}</TableCell>
+              <TableCell>{row.categoriesName}</TableCell>
               <TableCell>{row.description}</TableCell>
               <TableCell>
                 <Typography
                   sx={{
-                    backgroundColor:
-                      row.status === "Inactive"
-                        ? theme.palette.error.main
-                        : theme.palette.secondary.main,
+                    backgroundColor: row.status
+                      ? theme.palette.secondary.main
+                      : theme.palette.error.main,
                     color:
-                      row.status === "Inactive"
-                        ? theme.palette.error.text
-                        : theme.palette.secondary.text,
+                      row.status
+                        ? theme.palette.secondary.text
+                        : theme.palette.error.text,
                     padding: "8px",
                     borderRadius: "22px",
                     textAlign: "center",
                     textTransform: "capitalize",
                   }}
                 >
-                  {row.status}
+                  {row.status ? "Active" : "Inactive"}
                 </Typography>
+              </TableCell>
+              <TableCell>
+                <DiceThree/>
               </TableCell>
             </TableRow>
           ))}

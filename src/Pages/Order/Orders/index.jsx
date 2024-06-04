@@ -2,6 +2,7 @@ import React from "react";
 import Orders from "./Orders";
 import OrderDetails from "./OrderDetails";
 import { Route, Routes } from "react-router-dom";
+import CreateOrder from "./CreateOrder";
 
 const OrderPages = () => {
   return (

@@ -11,14 +11,22 @@ const SidebarList = ({ title, buttonList }) => {
 
   useEffect(() => {
     const currentPath = location.pathname;
-    // const currentPage = currentPath.pop();
     setCurrentPage(currentPath);
   }, [location]);
 
   console.log(currentPage);
 
+  const extractBaseRoute = (path) => {
+    const segments = path.split("/");
+    return segments.length > 1
+      ? `${segments[0]}/${segments[1]}`
+      : `${segments[0]}`;
+  };
+
   useEffect(() => {
-    const isPageActive = buttonList.some((item) => item.route === currentPage);
+    const isPageActive = buttonList.some(
+      (item) => item.route === extractBaseRoute(currentPage)
+    );
     setPageActive(isPageActive);
   }, [currentPage, buttonList]);
 
@@ -56,7 +64,7 @@ const SidebarList = ({ title, buttonList }) => {
               justifyContent: "flex-start",
               textTransform: "none",
               gap: "15px",
-              color: currentPage === item.route ? "#60A7A1" : "inherit",
+              color: extractBaseRoute(currentPage) === item.route ? "#60A7A1" : "inherit",
               borderRadius: "8px",
             }}
           >

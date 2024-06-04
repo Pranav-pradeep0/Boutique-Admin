@@ -11,7 +11,7 @@ import {
   useTheme,
   Typography,
 } from "@mui/material";
-import { Check, CheckCircle, PlusCircle } from "@phosphor-icons/react";
+import { Check, CheckCircle } from "@phosphor-icons/react";
 
 const dummyData = [
   {
@@ -46,8 +46,9 @@ const dummyData = [
   },
 ];
 
-const DataTable = ({ data, onAddButtonClick }) => {
+const OrderDataTable = ({ data }) => {
   const [selectAll, setSelectAll] = useState(false);
+  // const [data, setData] = useState(dummyData);
   const theme = useTheme();
 
   const handleCheckboxChange = (id) => {
@@ -78,9 +79,8 @@ const DataTable = ({ data, onAddButtonClick }) => {
             <TableCell>Product</TableCell>
             <TableCell>Rate</TableCell>
             <TableCell>Category</TableCell>
+            <TableCell>Data</TableCell>
             <TableCell>Status</TableCell>
-            <TableCell>Attributes</TableCell>
-            <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -103,28 +103,26 @@ const DataTable = ({ data, onAddButtonClick }) => {
               <TableCell>{row.name}</TableCell>
               <TableCell>{row.sellingPrice}</TableCell>
               <TableCell>{row.categoriesId}</TableCell>
+              <TableCell>{row.date}</TableCell>
               <TableCell>
                 <Typography
                   sx={{
-                    backgroundColor: row.status
-                      ? theme.palette.secondary.main
-                      : theme.palette.error.main,
-                    color: row.status
-                      ? theme.palette.secondary.text
-                      : theme.palette.error.text,
+                    backgroundColor:
+                      row.status === "Cancelled"
+                        ? theme.palette.error.main
+                        : theme.palette.secondary.main,
+                    color:
+                      row.status === "Cancelled"
+                        ? theme.palette.error.text
+                        : theme.palette.secondary.text,
                     padding: "8px",
                     borderRadius: "22px",
                     textAlign: "center",
                     textTransform: "capitalize",
                   }}
                 >
-                  {row.status ? "Available" : "Out of Stock"}
+                  {row.status}
                 </Typography>
-              </TableCell>
-              <TableCell>
-                <IconButton onClick={() => onAddButtonClick(row.id)}>
-                  <PlusCircle size={26} color={theme.palette.secondary.text} />
-                </IconButton>
               </TableCell>
             </TableRow>
           ))}
@@ -134,4 +132,4 @@ const DataTable = ({ data, onAddButtonClick }) => {
   );
 };
 
-export default DataTable;
+export default OrderDataTable;

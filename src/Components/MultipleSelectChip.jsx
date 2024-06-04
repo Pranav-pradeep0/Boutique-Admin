@@ -19,40 +19,31 @@ const MenuProps = {
   },
 };
 
-const names = [
-  "Oliver Hansen",
-  "Van Henry",
-  "April Tucker",
-  "Ralph Hubbard",
-  "Omar Alexander",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder",
-];
-
 function getStyles(name, personName, theme) {
   return {
     fontWeight:
-      personName.indexOf(name) === -1
+      personName.indexOf(name.id) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium,
   };
 }
 
-export default function MultipleSelectChip() {
+export default function MultipleSelectChip({ options, onChange }) {
   const theme = useTheme();
-  const [personName, setPersonName] = React.useState([]);
+  const [selectedValues, setSelectedValues] = React.useState([]);
 
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
+    const newValue = typeof value === "string" ? value.split(",") : value;
+    setSelectedValues(newValue);
+    onChange(newValue);
+  };
+
+  const getChipLabel = (value) => {
+    const label = options.find((item) => item.id === value);
+    return label ? label.value : "";
   };
 
   return (
@@ -64,13 +55,13 @@ export default function MultipleSelectChip() {
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
           multiple
-          value={personName}
+          value={selectedValues}
           onChange={handleChange}
           input={<OutlinedInput id="select-multiple-chip" />}
           renderValue={(selected) => (
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
               {selected.map((value) => (
-                <Chip key={value} label={value} />
+                <Chip size="small" key={value} label={getChipLabel(value)} />
               ))}
             </Box>
           )}
@@ -89,13 +80,13 @@ export default function MultipleSelectChip() {
           }}
           MenuProps={MenuProps}
         >
-          {names.map((name) => (
+          {options?.map((option) => (
             <MenuItem
-              key={name}
-              value={name}
-              style={getStyles(name, personName, theme)}
+              key={option.id}
+              value={option.id}
+              style={getStyles(option, selectedValues, theme)}
             >
-              {name}
+              {option.value}
             </MenuItem>
           ))}
         </Select>

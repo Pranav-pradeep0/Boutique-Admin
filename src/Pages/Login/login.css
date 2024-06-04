@@ -1,0 +1,20 @@
+.login-banner-container {
+  animation: fadeIn 1.5s;
+  overflow: hidden;
+  transition: ease-in-out;
+}
+
+@media (width <= 800px) {
+    .login-banner-container{
+        display: none;
+    }
+}
+
+@keyframes fadeIn {
+  0% {
+    width: 0px;
+  }
+  100% {
+    width: 320px;
+  }
+}

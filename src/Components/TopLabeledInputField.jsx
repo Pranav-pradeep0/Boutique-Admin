@@ -1,11 +1,18 @@
 import { InputBase, useTheme, Typography } from "@mui/material";
 import React from "react";
 
-const TopLabeledInputField = ({ label, placeholder, onChange }) => {
+const TopLabeledInputField = ({ label, placeholder, onChange, name }) => {
   const theme = useTheme();
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "10px", flexGrow:1 }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "10px",
+        flexGrow: 1,
+      }}
+    >
       <span
         style={{
           fontSize: "16px",
@@ -15,6 +22,7 @@ const TopLabeledInputField = ({ label, placeholder, onChange }) => {
         {label}
       </span>
       <InputBase
+        name={name}
         onChange={onChange}
         fullWidth
         placeholder={placeholder}

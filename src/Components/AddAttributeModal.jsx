@@ -8,7 +8,9 @@ import {
   useTheme,
 } from "@mui/material";
 import { PlusCircle, XCircle } from "@phosphor-icons/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { createAttribute } from "../Service/allApi";
+import { capitalizeFirstLetter } from "../utils/utils";
 
 const style = {
   position: "absolute",
@@ -22,14 +24,20 @@ const style = {
   borderRadius: "30px",
 };
 
-const AddAttributeModal = ({ open, setOpen }) => {
+const AddAttributeModal = ({ open, setOpen, editData }) => {
+  const [attributeName, setAttributeName] = useState("");
   const [attributeValues, setAttributeValues] = useState([""]);
+
   const theme = useTheme();
 
   const handleClose = () => setOpen(false);
 
   const handleAddValueField = () => {
     setAttributeValues((value) => [...value, ""]);
+  };
+
+  const handleAttributeNameFieldChange = (e) => {
+    setAttributeName(capitalizeFirstLetter(e.target.value));
   };
 
   const handleRemoveValueField = (indexToRemove) => {
@@ -47,11 +55,34 @@ const AddAttributeModal = ({ open, setOpen }) => {
   const handleChangeValue = (index, event) => {
     const { value } = event.target;
     setAttributeValues((values) =>
-      values.map((v, i) => (i === index ? value : v))
+      values.map((v, i) => (i === index ? capitalizeFirstLetter(value) : v))
     );
   };
 
-  console.log(attributeValues);
+  const handleAttributeAdd = async () => {
+    const data = {
+      attributeName,
+      value: attributeValues,
+    };
+    const response = await createAttribute(data);
+    if (response.status === 200) {
+      handleClose();
+      setAttributeValues([""]);
+      setAttributeName("");
+      window.location.reload();
+    }
+    console.log(response);
+  };
+
+  // useEffect(() => {
+  //   if (editData) {
+  //     setAttributeName(editData.attribute);
+  //     setAttributeValues(editData.values);
+  //   } else {
+  //     setAttributeName("");
+  //     setAttributeValues([""]);
+  //   }
+  // }, [editData]);
 
   return (
     <div>
@@ -79,11 +110,14 @@ const AddAttributeModal = ({ open, setOpen }) => {
 
             <InputBase
               fullWidth
+              value={attributeName}
+              onChange={handleAttributeNameFieldChange}
               placeholder="Enter Attribute Name"
               sx={{
                 backgroundColor: theme.palette.background.offPaper,
                 padding: "5px 15px",
                 borderRadius: "10px",
+                textTransform: "capitalize",
               }}
             />
 
@@ -106,6 +140,7 @@ const AddAttributeModal = ({ open, setOpen }) => {
                     justifyContent: "center",
                     marginBottom: "5px",
                   }}
+                  key={ind}
                 >
                   <InputBase
                     placeholder="Enter Value"
@@ -140,14 +175,15 @@ const AddAttributeModal = ({ open, setOpen }) => {
               sx={{
                 width: "max-content",
                 textTransform: "none",
-                backgroundColor: theme.palette.button.main,
+                backgroundColor: theme.palette.button.text,
                 color: "white",
                 marginInline: "auto",
                 borderRadius: "10px",
                 ":hover": {
-                  backgroundColor: theme.palette.button.main,
+                  backgroundColor: theme.palette.button.text,
                 },
               }}
+              onClick={handleAttributeAdd}
             >
               Add Attribute
             </Button>
