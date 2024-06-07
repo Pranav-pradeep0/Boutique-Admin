@@ -11,44 +11,11 @@ import {
   useTheme,
   Typography,
 } from "@mui/material";
-import { Check, CheckCircle } from "@phosphor-icons/react";
+import { CheckCircle } from "@phosphor-icons/react";
+import { convertUTCToNormalDateTime } from '../utils/utils';
 
-const dummyData = [
-  {
-    id: 1,
-    name: "John Doe",
-    product: "White dress",
-    selected: false,
-    rate: "1500",
-    category: "Baptism",
-    date: "10-04-2024",
-    status: "Delivered",
-  },
-  {
-    id: 2,
-    name: "Jane Smith",
-    product: "White dress",
-    selected: false,
-    rate: "1500",
-    category: "Baptism",
-    date: "10-04-2024",
-    status: "Cancelled",
-  },
-  {
-    id: 3,
-    name: "Bob Johnson",
-    product: "White dress",
-    selected: false,
-    rate: "1500",
-    category: "Baptism",
-    date: "10-04-2024",
-    status: "Delivered",
-  },
-];
-
-const OrderDataTable = ({ data }) => {
+const OrderDataTable = ({ data, setData }) => {
   const [selectAll, setSelectAll] = useState(false);
-  // const [data, setData] = useState(dummyData);
   const theme = useTheme();
 
   const handleCheckboxChange = (id) => {
@@ -65,6 +32,8 @@ const OrderDataTable = ({ data }) => {
     setSelectAll(!selectAll);
   };
 
+  console.log(data);
+
   return (
     <TableContainer>
       <Table aria-label="simple table">
@@ -76,10 +45,11 @@ const OrderDataTable = ({ data }) => {
               </IconButton>
             </TableCell>
             <TableCell>Order ID</TableCell>
+            <TableCell>Customer</TableCell>
             <TableCell>Product</TableCell>
             <TableCell>Rate</TableCell>
             <TableCell>Category</TableCell>
-            <TableCell>Data</TableCell>
+            <TableCell>Date</TableCell>
             <TableCell>Status</TableCell>
           </TableRow>
         </TableHead>
@@ -100,10 +70,11 @@ const OrderDataTable = ({ data }) => {
                 />
               </TableCell>
               <TableCell>{row.id}</TableCell>
-              <TableCell>{row.name}</TableCell>
+              <TableCell>{row.customerName}</TableCell>
               <TableCell>{row.sellingPrice}</TableCell>
-              <TableCell>{row.categoriesId}</TableCell>
-              <TableCell>{row.date}</TableCell>
+              <TableCell>{row.totalAmount}</TableCell>
+              <TableCell>{""}</TableCell>
+              <TableCell>{convertUTCToNormalDateTime(row.createdAt)}</TableCell>
               <TableCell>
                 <Typography
                   sx={{

@@ -10,8 +10,15 @@ import {
   IconButton,
   useTheme,
   Typography,
+  Menu,
+  MenuItem,
 } from "@mui/material";
-import { Check, CheckCircle, PlusCircle } from "@phosphor-icons/react";
+import {
+  Check,
+  CheckCircle,
+  DotsThree,
+  PlusCircle,
+} from "@phosphor-icons/react";
 
 const dummyData = [
   {
@@ -46,8 +53,15 @@ const dummyData = [
   },
 ];
 
-const DataTable = ({ data, onAddButtonClick }) => {
+const DataTable = ({
+  data,
+  onAddButtonClick,
+  onEditButtonClick,
+  onDeleteButtonClick,
+}) => {
   const [selectAll, setSelectAll] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+
   const theme = useTheme();
 
   const handleCheckboxChange = (id) => {
@@ -62,6 +76,14 @@ const DataTable = ({ data, onAddButtonClick }) => {
     const updatedData = data.map((item) => ({ ...item, selected: !selectAll }));
     setData(updatedData);
     setSelectAll(!selectAll);
+  };
+
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   return (
@@ -126,10 +148,48 @@ const DataTable = ({ data, onAddButtonClick }) => {
                   <PlusCircle size={26} color={theme.palette.secondary.text} />
                 </IconButton>
               </TableCell>
+              <TableCell>
+                <IconButton
+                  aria-label="more"
+                  id="long-button"
+                  aria-controls={open ? "long-menu" : undefined}
+                  aria-expanded={open ? "true" : undefined}
+                  aria-haspopup="true"
+                  onClick={handleClick}
+                >
+                  <DotsThree size={25} />
+                </IconButton>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+      <Menu
+        id="long-menu"
+        MenuListProps={{
+          "aria-labelledby": "long-button",
+        }}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+      >
+        <MenuItem
+          onClick={() => {
+            onEditButtonClick(row);
+            handleClose();
+          }}
+        >
+          Edit
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            onDeleteButtonClick(row.id);
+            handleClose();
+          }}
+        >
+          Delete
+        </MenuItem>
+      </Menu>
     </TableContainer>
   );
 };

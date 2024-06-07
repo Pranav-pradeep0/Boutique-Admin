@@ -62,8 +62,8 @@ const Header = () => {
               paddingRight: "10px",
             }}
           >
-            <span style={{ fontSize: "12px", fontWeight: 600 }}>Blake</span>
-            <span style={{ fontSize: "10px", fontWeight: 400 }}>Admin</span>
+            <span style={{ fontSize: "12px", fontWeight: 600 }}>Admin</span>
+            {/* <span style={{ fontSize: "10px", fontWeight: 400 }}>Admin</span> */}
           </div>
           <CaretDown size={22} style={{ marginRight: "10px" }} />
         </IconButton>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import {
   Table,
   TableBody,
@@ -10,16 +10,37 @@ import {
   IconButton,
   useTheme,
   Typography,
+  Menu,
+  MenuItem,
 } from "@mui/material";
-import { Check, CheckCircle, DiceThree } from "@phosphor-icons/react";
+import {
+  Check,
+  CheckCircle,
+  DiceThree,
+  DotsThree,
+} from "@phosphor-icons/react";
+import { useNavigate } from "react-router-dom";
 
 const CategoryTable = ({
   data,
   handleCheckboxChange,
   handleSelectAll,
   selectAll,
+  onEditButtonClick,
+  onDeleteButtonClick,
 }) => {
   const theme = useTheme();
+  const navigate = useNavigate();
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <TableContainer>
@@ -41,11 +62,13 @@ const CategoryTable = ({
         <TableBody>
           {data?.map((row) => (
             <TableRow
+              onClick={() => navigate(`/products/view/${row.id}`)}
               key={row.id}
               sx={{
                 ":hover": {
                   boxShadow: "1px 17px 44px 0px rgba(3, 2, 41, 0.07)",
                 },
+                cursor: "pointer",
               }}
             >
               <TableCell>
@@ -63,10 +86,9 @@ const CategoryTable = ({
                     backgroundColor: row.status
                       ? theme.palette.secondary.main
                       : theme.palette.error.main,
-                    color:
-                      row.status
-                        ? theme.palette.secondary.text
-                        : theme.palette.error.text,
+                    color: row.status
+                      ? theme.palette.secondary.text
+                      : theme.palette.error.text,
                     padding: "8px",
                     borderRadius: "22px",
                     textAlign: "center",
@@ -77,12 +99,48 @@ const CategoryTable = ({
                 </Typography>
               </TableCell>
               <TableCell>
-                <DiceThree/>
+                <IconButton
+                  aria-label="more"
+                  id="long-button"
+                  aria-controls={open ? "long-menu" : undefined}
+                  aria-expanded={open ? "true" : undefined}
+                  aria-haspopup="true"
+                  onClick={handleClick}
+                >
+                  <DotsThree size={25} />
+                </IconButton>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+
+      <Menu
+        id="long-menu"
+        MenuListProps={{
+          "aria-labelledby": "long-button",
+        }}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+      >
+        <MenuItem
+          onClick={() => {
+            onEditButtonClick(row);
+            handleClose();
+          }}
+        >
+          Edit
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            onDeleteButtonClick(row.id);
+            handleClose();
+          }}
+        >
+          Delete
+        </MenuItem>
+      </Menu>
     </TableContainer>
   );
 };

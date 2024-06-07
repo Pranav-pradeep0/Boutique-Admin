@@ -33,8 +33,12 @@ export const createCategory = async (body) => {
 };
 
 export const createOrder = async (body) => {
-  return commonRequest("POST", "user/createOrder/1", body);
+  return commonRequest("POST", "admin/createTestOrder/1", body);
 };
+
+export const getAllOrders = async () => {
+  return commonRequest('GET','admin/getAllOrders')
+}
 
 export const getColourAttributes = async () => {
   return commonRequest("GET", "admin/getColour");

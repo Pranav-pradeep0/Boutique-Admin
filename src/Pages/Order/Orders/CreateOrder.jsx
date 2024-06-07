@@ -19,12 +19,16 @@ import {
   paymentMethod,
   paymentStatus,
 } from "../../../utils/constants";
+import { createOrder } from "../../../Service/allApi";
+import { useNavigate } from "react-router-dom";
 
 const TAX_RATE = 0.2; // 20% tax rate
 const DISCOUNT_RATE = 0.05; // 5% discount rate
 
 const CreateOrder = ({ categories, allProducts }) => {
   const theme = useTheme();
+  const navigate = useNavigate()
+
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [totals, setTotals] = useState({
@@ -172,7 +176,7 @@ const CreateOrder = ({ categories, allProducts }) => {
     return [...new Set(sizeOptions.map(JSON.stringify))].map(JSON.parse);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const newOrderData = {
       customerName: customerDetails.customerName,
       customerPhoneNumber: customerDetails.customerPhoneNumber,
@@ -202,7 +206,11 @@ const CreateOrder = ({ categories, allProducts }) => {
       customerNote,
     };
 
-    console.log(newOrderData);
+    const response = await createOrder(newOrderData)
+
+    if (response.status === 201) {
+      navigate('/orders')
+    }
   };
 
   useEffect(() => {

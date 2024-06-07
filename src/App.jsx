@@ -31,6 +31,7 @@ import {
 } from "./Service/allApi";
 import CreateOrder from "./Pages/Order/Orders/CreateOrder";
 import "react-toastify/dist/ReactToastify.css";
+import ProductViewEditPage from "./Components/ProductViewEditPage";
 
 const App = () => {
   const theme = useTheme();
@@ -177,6 +178,11 @@ const App = () => {
                   <Route
                     path="/products/add-attribute/:id"
                     element={<AddAttributeToProduct />}
+                  />
+
+                  <Route
+                    path="/products/:type/:id"
+                    element={<ProductViewEditPage />}
                   />
                 </Routes>
               </Box>

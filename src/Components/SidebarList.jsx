@@ -14,8 +14,6 @@ const SidebarList = ({ title, buttonList }) => {
     setCurrentPage(currentPath);
   }, [location]);
 
-  console.log(currentPage);
-
   const extractBaseRoute = (path) => {
     const segments = path.split("/");
     return segments.length > 1
@@ -55,7 +53,7 @@ const SidebarList = ({ title, buttonList }) => {
       </span>
 
       {buttonList?.map((item, ind) => (
-        <Link style={{ all: "unset" }} to={item.route}>
+        <Link style={{ all: "unset" }} to={item.route} key={ind}>
           <Button
             fullWidth
             sx={{
@@ -64,7 +62,10 @@ const SidebarList = ({ title, buttonList }) => {
               justifyContent: "flex-start",
               textTransform: "none",
               gap: "15px",
-              color: extractBaseRoute(currentPage) === item.route ? "#60A7A1" : "inherit",
+              color:
+                extractBaseRoute(currentPage) === item.route
+                  ? "#60A7A1"
+                  : "inherit",
               borderRadius: "8px",
             }}
           >
